@@ -21,26 +21,32 @@ class Characters():
     def __init__(self):
         if len(Characters.all) <= 0:
             self.get_all_characters()
-            
-            self.summoned = []
     
     def summon_random(self, count=1):
+        summoned = []
         if len(Characters.all) > 0:
             for _ in range(count):
                 character = Characters.all[randint(0, len(Characters.all))]
-                self.summoned.append(character)
+                summoned.append(character)
+        
+        return summoned
 
-    def summon_specify(self, id):
-        if type(id) != int:
-            id = int(id)
+    def summon_specify(self, ids):
+        summoned = []
+        for id in ids:
+            if type(id) != int:
+                id = int(id)
 
-        character = Characters.all[id]
-        self.summoned.append(character)
+            if len(Characters.all) > id:
+                character = Characters.all[id]
+                summoned.append(character)
+        
+        return summoned
 
     def show_all(self):
         for character in Characters.all:
             character.show_info()
     
-    def show_summoned(self):
-        for character in self.summoned:
+    def show_characters(self, characters):
+        for character in characters:
             character.show_info()
