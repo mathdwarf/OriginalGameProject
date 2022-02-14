@@ -20,17 +20,19 @@ class Coliseum():
         return all
 
     def call_allies(self, count=1):
-        self.allies = Coliseum.characters.summon_random(count)
+        allies = Coliseum.characters.summon_random(count)
+        [self.allies.append((ally, Coliseum.ALLY)) for ally in allies]
     
     def call_enemies(self, count=1):
-        self.enemies = Coliseum.characters.summon_random(count)
+        enemies = Coliseum.characters.summon_random(count)
+        [self.enemies.append((enemy, Coliseum.ENEMY)) for enemy in enemies]
     
     def set_action_order(self):
         battler_list = []
         for ally in self.allies:
-            battler_list.append((ally, Coliseum.ALLY))
+            battler_list.append(ally)
         for enemy in self.enemies:
-            battler_list.append((enemy, Coliseum.ENEMY))
+            battler_list.append(enemy)
         
         battler_list =  sorted(battler_list, reverse=True, key=lambda battler: battler[0].speed)
         return battler_list
@@ -97,38 +99,38 @@ class Coliseum():
             for target in target_list:
                 damage_point = self.calculate_damage_point(action.effect_max, action.effect_min, action.hit_rate)
                 
-                print_message('　みかた の ', end='') if target in self.allies else print_message('　てき の', end='')
-                print_message(f'{target.name} に ', end='')
+                print_message('　みかた の ', end='') if target[1] == Coliseum.ALLY else print_message('　てき の', end='')
+                print_message(f'{target[0].name} に ', end='')
                 print_message(f'{str(damage_point)} の ダメージ ！') if damage_point >= 0 else print_message(f'{str(damage_point * -1)} の かいふく ！')
                 
-                if target.cur_hp < damage_point:
-                    target.cur_hp = 0
-                    print_message(f'{target.name} は せんとうふのう に なった ！')
+                if target[0].cur_hp < damage_point:
+                    target[0].cur_hp = 0
+                    print_message(f'{target[0].name} は せんとうふのう に なった ！')
                 else:
-                    if target.max_hp > (target.cur_hp-damage_point):
-                        target.cur_hp -= damage_point
+                    if target[0].max_hp > (target[0].cur_hp-damage_point):
+                        target[0].cur_hp -= damage_point
                     else:
-                        target.cur_hp = target.max_hp
+                        target[0].cur_hp = target[0].max_hp
     
     def show_battlers_status(self):
         print_message(f'みかた の じょうたい')
         for ally in self.allies:
-            ally_name = f'　{ally.name}'
-            ally_hp = f'HP : {str(ally.cur_hp)} / {str(ally.max_hp)}'
-            ally_mp = f'MP : {str(ally.cur_mp)} / {str(ally.max_mp)}'
+            ally_name = f'　{ally[0].name}'
+            ally_hp = f'HP : {str(ally[0].cur_hp)} / {str(ally[0].max_hp)}'
+            ally_mp = f'MP : {str(ally[0].cur_mp)} / {str(ally[0].max_mp)}'
             print_message(f'{ally_name} : {ally_hp}, {ally_mp}')
         print_message(f'てき の じょうたい')
         for enemy in self.enemies:
-            enemy_name = f'　{enemy.name}'
-            enemy_hp = f'HP : {str(enemy.cur_hp)} / {str(enemy.max_hp)}'
-            enemy_mp = f'MP : {str(enemy.cur_mp)} / {str(enemy.max_mp)}'
+            enemy_name = f'　{enemy[0].name}'
+            enemy_hp = f'HP : {str(enemy[0].cur_hp)} / {str(enemy[0].max_hp)}'
+            enemy_mp = f'MP : {str(enemy[0].cur_mp)} / {str(enemy[0].max_mp)}'
             print_message(f'{enemy_name} : {enemy_hp}, {enemy_mp}')
     
     def check_settlement(self):
         result = 'yet'
         
-        num_survive_allies = [s_allies for s_allies in self.allies if s_allies.cur_hp > 0]
-        num_survive_enemies = [s_enemies for s_enemies in self.enemies if s_enemies.cur_hp > 0]
+        num_survive_allies = [s_allies for s_allies in self.allies if s_allies[0].cur_hp > 0]
+        num_survive_enemies = [s_enemies for s_enemies in self.enemies if s_enemies[0].cur_hp > 0]
         if (len(num_survive_allies) <= 0) & (len(num_survive_enemies) <= 0):
             result = 'draw'
         elif len(num_survive_allies) <= 0:
@@ -143,7 +145,7 @@ class Coliseum():
     def execute_turn(self):
         battlers_order = self.set_action_order()
         for battler in battlers_order:
-            print_message('みかた の ', end='') if battler[0] in self.allies else print_message('てき の', end='')
+            print_message('みかた の ', end='') if battler[1] == Coliseum.ALLY else print_message('てき の', end='')
             print_message(f'{battler[0].name} の ターン ！')
             self.execute_action(battler)
         
