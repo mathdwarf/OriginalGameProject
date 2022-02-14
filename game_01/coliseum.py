@@ -84,7 +84,8 @@ class Coliseum():
         return damage_point
     
     def execute_action(self, battler):
-        if battler[0].max_hp <= 0:
+        if battler[0].cur_hp <= 0:
+            print(f'　{battler[0].name} は せんとうふのう だ ！')
             return
         else:
             action = battler[0].select_action()
