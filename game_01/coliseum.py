@@ -93,14 +93,14 @@ class Coliseum():
                 print_message('　MP が たりない ！')
                 return
             
-            print_message(f'　{battler[0].name} の {action.name} ！', end='')
+            print_message(f'　{battler[0].name} の {action.name} ！')
             battler[0].cur_mp -= action.mp_cost
             is_battler_in_allies = True if battler[1] == Coliseum.ALLY else False
             target_list = self.select_target(action.target, is_battler_in_allies)
             for target in target_list:
                 damage_point = self.calculate_damage_point(action.effect_max, action.effect_min, action.hit_rate)
                 
-                print_message('　みかた の ', end='') if target[1] == Coliseum.ALLY else print_message('　てき の', end='')
+                print_message('　　みかた の ', end='') if target[1] == Coliseum.ALLY else print_message('　　てき の', end='')
                 print_message(f'{target[0].name} に ', end='')
                 print_message(f'{str(damage_point)} の ダメージ ！') if damage_point >= 0 else print_message(f'{str(damage_point * -1)} の かいふく ！')
                 
