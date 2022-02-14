@@ -1,12 +1,12 @@
 class Action():
     def __init__(self, dict_info):
-        self.id = dict_info['id']
+        self.id = int(dict_info['id'])
         self.name = dict_info['name']
         self.target = dict_info['target']
-        self.effect_max = dict_info['effect_max']
-        self.effect_min = dict_info['effect_min']
-        self.hit_rate = dict_info['hit_rate']
-        self.mp_cost = dict_info['mp_cost']
+        self.effect_max = int(dict_info['effect_max'])
+        self.effect_min = int(dict_info['effect_min'])
+        self.hit_rate = int(dict_info['hit_rate'])
+        self.mp_cost = int(dict_info['mp_cost'])
 
     def show_info(self):
         print(f'        {self.name}')
