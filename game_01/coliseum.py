@@ -107,10 +107,13 @@ class Coliseum():
                     target[0].cur_hp = 0
                     print_message(f'{target[0].name} は せんとうふのう に なった ！')
                 else:
-                    if target[0].max_hp > (target[0].cur_hp-damage_point):
-                        target[0].cur_hp -= damage_point
+                    if target[0].cur_hp <= 0:
+                        print_message(f'{target[0].name} は せんとうふのう のため かいふく できない ！')
                     else:
-                        target[0].cur_hp = target[0].max_hp
+                        if target[0].max_hp > (target[0].cur_hp-damage_point):
+                            target[0].cur_hp -= damage_point
+                        else:
+                            target[0].cur_hp = target[0].max_hp
     
     def show_battlers_status(self):
         print_message(f'みかた の じょうたい')
