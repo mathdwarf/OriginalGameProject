@@ -79,7 +79,7 @@ class Coliseum():
         if is_hit:
             damage_point = randint(min, max+1)
         else:
-            print_message('　ミス ！')
+            pass # Do Nothing
         
         return damage_point
     
@@ -99,6 +99,9 @@ class Coliseum():
             target_list = self.select_target(action.target, is_battler_in_allies)
             for target in target_list:
                 damage_point = self.calculate_damage_point(action.effect_max, action.effect_min, action.hit_rate)
+                if damage_point == 0:
+                    print_message('　ミス ！')
+                    continue
                 
                 print_message('　　みかた の ', end='') if target[1] == Coliseum.ALLY else print_message('　　てき の', end='')
                 print_message(f'{target[0].name} に ', end='')
