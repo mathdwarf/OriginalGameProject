@@ -5,8 +5,12 @@ from actions import Actions
 class Character():
     def __init__(self, dict_info):
         self.name = dict_info['name']
-        self.hp = dict_info['hp']
-        self.mp = dict_info['mp']
+        self.hp_max = dict_info['hp']
+        self.hp_cur = self.hp_max
+        self.hp_min = 0
+        self.mp_max = dict_info['mp']
+        self.mp_cur = self.mp_max
+        self.mp_min = 0
         self.offense = dict_info['offense']
         self.defense = dict_info['defense']
         self.speed = dict_info['speed']
