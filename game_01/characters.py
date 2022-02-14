@@ -1,5 +1,6 @@
 import os
 import csv
+from copy import deepcopy
 from numpy.random import randint
 
 from character import Character
@@ -26,7 +27,7 @@ class Characters():
         summoned = []
         if len(Characters.all) > 0:
             for _ in range(count):
-                character = Characters.all[randint(0, len(Characters.all))]
+                character = deepcopy(Characters.all[randint(0, len(Characters.all))])
                 summoned.append(character)
         
         return summoned
@@ -38,7 +39,7 @@ class Characters():
                 id = int(id)
 
             if len(Characters.all) > id:
-                character = Characters.all[id]
+                character = deepcopy(Characters.all[id])
                 summoned.append(character)
         
         return summoned
