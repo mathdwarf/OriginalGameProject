@@ -40,33 +40,31 @@ class Coliseum():
     def select_target(self, target, is_in_allies):
         target_battler_list = []
         if target == 'one':
-            all = self.make_battler_list()
-            target_battler = all[randint(0, len(all))] if (len(all) > 0) else None
+            survivors = [survivor for survivor in self.make_battler_list() if survivor[0].cur_hp > 0]
+            target_battler = survivors[randint(0, len(survivors))] if (len(survivors) > 0) else None
             target_battler_list.append(target_battler) if target_battler != None else None
         
         elif target == 'all':
-            all = self.make_battler_list()
-            [target_battler_list.append(one) for one in all]
+            survivors = [survivor for survivor in self.make_battler_list() if survivor[0].cur_hp > 0]
+            [target_battler_list.append(one) for one in survivors]
         
         elif target == 'ally':
-            target_battler = \
-                (self.allies[randint(0, len(self.allies))] if (len(self.allies) > 0) else None) if is_in_allies else \
-                (self.enemies[randint(0, len(self.enemies))] if (len(self.enemies) > 0) else None)
+            survivors = [survivor for survivor in (self.allies if is_in_allies else self.enemies) if survivor[0].cur_hp > 0]
+            target_battler = survivors[randint(0, len(survivors))] if (len(survivors) > 0) else None
             target_battler_list.append(target_battler) if target_battler != None else None
         
         elif target == 'allies':
-            [target_battler_list.append(ally) for ally in self.allies] if is_in_allies else \
-            [target_battler_list.append(enemy) for enemy in self.enemies]
+            survivors = [survivor for survivor in (self.allies if is_in_allies else self.enemies) if survivor[0].cur_hp > 0]
+            [target_battler_list.append(survivor) for survivor in survivors]
         
         elif target == 'enemy':
-            target_battler = \
-                (self.enemies[randint(0, len(self.enemies))] if (len(self.enemies) > 0) else None) if is_in_allies else \
-                (self.allies[randint(0, len(self.allies))] if (len(self.allies) > 0) else None)
+            survivors = [survivor for survivor in (self.allies if not is_in_allies else self.enemies) if survivor[0].cur_hp > 0]
+            target_battler = survivors[randint(0, len(survivors))] if (len(survivors) > 0) else None
             target_battler_list.append(target_battler) if target_battler != None else None
         
         elif target == 'enemies':
-            [target_battler_list.append(enemy) for enemy in self.enemies] if is_in_allies else \
-            [target_battler_list.append(ally) for ally in self.allies]
+            survivors = [survivor for survivor in (self.allies if not is_in_allies else self.enemies) if survivor[0].cur_hp > 0]
+            [target_battler_list.append(survivor) for survivor in survivors]
         
         else:
             pass # Do Nothing
