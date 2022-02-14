@@ -16,7 +16,7 @@ class Character():
         self.actions = Actions()
         self.actions.construct(action_ids)
 
-    def decide_action(self):
+    def select_action(self):
         action = None
         if len(self.actions.list) > 0:
             action = self.actions.list[randint(0, len(self.actions.list))]
