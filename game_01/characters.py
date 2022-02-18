@@ -1,7 +1,7 @@
 import os
 import csv
 from copy import deepcopy
-from numpy.random import randint
+from numpy.random import randint, sample
 
 from character import Character
 
@@ -26,8 +26,9 @@ class Characters():
     def summon_random(self, count=1):
         summoned = []
         if len(Characters.all) > 0:
-            for _ in range(count):
-                character = deepcopy(Characters.all[randint(0, len(Characters.all))])
+            characters = sample(Characters.all, count)
+            for character in characters:
+                character = deepcopy(character)
                 summoned.append(character)
         
         return summoned
